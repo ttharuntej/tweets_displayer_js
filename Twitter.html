@@ -1,0 +1,49 @@
+
+<html>
+<head>
+    <title>Display Tweets</title>
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" > </script>
+<script type="text/javascript" >
+$(document).ready(function(){
+    $('#submit').click(function() {
+        var params = {
+            q: $('#query').val(),
+            rpp: 5
+        };
+         
+        searchTwitter(params);
+
+
+function searchTwitter(query) {
+   $.ajax({
+        url: 'http://search.twitter.com/search.json?' + jQuery.param(query),
+        dataType: 'jsonp',
+        success: function(data) {
+            var tweets = $('#tweets');
+            tweets.html('');
+            for (res in data['results']) {
+                tweets.append('<div>' + data['results'][res]['from_user'] + ' wrote: <p>' + data['results'][res]['text'] + '</p></div><br />');
+            }
+        }
+    }); 
+}
+});
+    });
+ 
+
+</script>
+
+</head>
+<body>
+     <div style="padding: 20px;">
+        <input id="query" type="text" value="android" />
+        <input id="submit" type="button" value="Search" />
+    </div>
+    <div id="tweets" style="padding: 20px;">
+        Welcome. Enter the value and click search
+    </div>
+</body>
+</html>
+
+
+
